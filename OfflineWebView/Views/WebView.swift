@@ -1,25 +1,14 @@
 //
-//  UIViewWrapper.swift
+//  WebView.swift
 //  OfflineWebView
 //
-//  Created by Ernesto Elsäßer on 27.03.20.
+//  Created by Abraham Duran on 11/9/22.
 //  Copyright © 2020 Ernesto Elsaesser. All rights reserved.
 //
 
 import SwiftUI
 import Combine
 import WebKit
-
-struct UIViewWrapper: UIViewRepresentable {
-    
-    let view: UIView
-    
-    func makeUIView(context: Context) -> UIView  {
-        return view
-    }
-    
-    func updateUIView(_ uiView: UIView, context: Context) {}
-}
 
 @dynamicMemberLookup
 public class WebViewStore: ObservableObject {
@@ -29,7 +18,7 @@ public class WebViewStore: ObservableObject {
         }
     }
 
-    public init(webView: WKWebView = WKWebView()) {
+    public init(webView: WKWebView = WKWebView(frame: CGRect(x: 0.0, y: 0.0, width: 0.1, height: 0.1))) {
         self.webView = webView
         setupObservers()
     }
