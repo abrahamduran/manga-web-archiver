@@ -9,61 +9,54 @@
 import SwiftUI
 
 struct ContentView: View {
-    @EnvironmentObject private var service: BookmarksService
+    @StateObject private var store = BookmarksStore()
     @State private var website: URL?
 
     var body: some View {
-        List {
-            Section(header: Text("Sites")) {
-                Button("MangaDex") {
-                    website = URL(string: "https://mangadex.org")
-                }
-            }
-
-            Section(header: Text("Bookmarks")) {
-                ForEach(service.bookmarks) { bookmark in
-                    Button {
-                        website = bookmark.url
-                    } label: {
-                        HStack {
-                            Text(bookmark.title)
-
-                            Spacer()
-
-                            Image(systemName: "chevron.right")
-                        }
-                        .foregroundColor(.primary)
+        NavigationView {
+            List {
+                Section(header: Text("Sites")) {
+                    NavigationLink("MangaDex") {
+                        WebArchiverView(viewModel: .init(url: URL(string: "https://mangadex.org")!))
                     }
-                    .swipeActions {
-                        Button("Delete", role: .destructive) {
-                            withAnimation {
-                                service.remove(bookmark)
+                    .foregroundColor(.blue)
+                }
+
+                Section(header: Text("Bookmarks")) {
+                    ForEach(store.bookmarks) { bookmark in
+                        NavigationLink(bookmark.title) {
+                            WebArchiverView(viewModel: .init(url: bookmark.url))
+                        }
+                        .swipeActions {
+                            Button("Delete", role: .destructive) {
+                                withAnimation {
+                                    store.input.remove(bookmark, from: .bookmarks)
+                                }
                             }
                         }
                     }
                 }
-            }
 
-            Section(header: Text("Latest Downloads")) {
-                ForEach(service.latests.reversed()) { bookmark in
-                    Button {
-                        website = bookmark.url
-                    } label: {
-                        HStack {
-                            Text(bookmark.title)
-
-                            Spacer()
-
-                            Image(systemName: "chevron.right")
+                Section(header: Text("Latest Downloads")) {
+                    ForEach(store.latests) { bookmark in
+                        NavigationLink(bookmark.title) {
+                            WebArchiverView(viewModel: .init(url: bookmark.url))
                         }
-                        .foregroundColor(.primary)
+                    }
+                }
+
+                Section(header: Text("History")) {
+                    ForEach(store.history) { bookmark in
+                        NavigationLink(bookmark.title) {
+                            WebArchiverView(viewModel: .init(url: bookmark.url))
+                        }
                     }
                 }
             }
+            .navigationBarHidden(true)
+            .onAppear(perform: store.input.load)
         }
-        .fullScreenCover(item: $website) { url in
-            WebArchiverView(url: url)
-        }
+        .navigationViewStyle(.stack)
     }
 }
 
@@ -75,4 +68,15 @@ struct ContentView_Previews: PreviewProvider {
 
 extension URL: Identifiable {
     public var id: String { path }
+}
+
+extension UINavigationController: UIGestureRecognizerDelegate {
+    override open func viewDidLoad() {
+        super.viewDidLoad()
+        interactivePopGestureRecognizer?.delegate = self
+    }
+
+    public func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+        return viewControllers.count > 1
+    }
 }

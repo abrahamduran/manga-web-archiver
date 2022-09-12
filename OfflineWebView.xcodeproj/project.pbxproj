@@ -3,14 +3,17 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 52;
+	objectVersion = 50;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		179A7DE228CDCA1500C845AC /* TraditionalSaveToFiles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 179A7DE128CDCA1500C845AC /* TraditionalSaveToFiles.swift */; };
 		179A7DE528CDF9B700C845AC /* Bookmark.swift in Sources */ = {isa = PBXBuildFile; fileRef = 179A7DE428CDF9B700C845AC /* Bookmark.swift */; };
-		179A7DE728CDFA2400C845AC /* BookmarksService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 179A7DE628CDFA2400C845AC /* BookmarksService.swift */; };
+		179A7DE728CDFA2400C845AC /* BookmarksStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 179A7DE628CDFA2400C845AC /* BookmarksStore.swift */; };
 		179A7DEA28CE029900C845AC /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 179A7DE928CE029900C845AC /* ContentView.swift */; };
+		179A7DEC28CEB79200C845AC /* UserDefaults+Keys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 179A7DEB28CEB79200C845AC /* UserDefaults+Keys.swift */; };
+		179A7DF228CED49000C845AC /* WebArchiverViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 179A7DF128CED49000C845AC /* WebArchiverViewModel.swift */; };
+		179A7DF428CED68200C845AC /* FileManager+Documents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 179A7DF328CED68200C845AC /* FileManager+Documents.swift */; };
 		940D1144242E0905006F7C27 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 940D1143242E0905006F7C27 /* AppDelegate.swift */; };
 		940D1146242E0906006F7C27 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 940D1145242E0906006F7C27 /* SceneDelegate.swift */; };
 		940D1148242E0906006F7C27 /* WebArchiverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 940D1147242E0906006F7C27 /* WebArchiverView.swift */; };
@@ -23,8 +26,11 @@
 /* Begin PBXFileReference section */
 		179A7DE128CDCA1500C845AC /* TraditionalSaveToFiles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TraditionalSaveToFiles.swift; sourceTree = "<group>"; };
 		179A7DE428CDF9B700C845AC /* Bookmark.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bookmark.swift; sourceTree = "<group>"; };
-		179A7DE628CDFA2400C845AC /* BookmarksService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarksService.swift; sourceTree = "<group>"; };
+		179A7DE628CDFA2400C845AC /* BookmarksStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarksStore.swift; sourceTree = "<group>"; };
 		179A7DE928CE029900C845AC /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		179A7DEB28CEB79200C845AC /* UserDefaults+Keys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+Keys.swift"; sourceTree = "<group>"; };
+		179A7DF128CED49000C845AC /* WebArchiverViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebArchiverViewModel.swift; sourceTree = "<group>"; };
+		179A7DF328CED68200C845AC /* FileManager+Documents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FileManager+Documents.swift"; sourceTree = "<group>"; };
 		940D1140242E0905006F7C27 /* OfflineWebView.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OfflineWebView.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		940D1143242E0905006F7C27 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		940D1145242E0906006F7C27 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -50,7 +56,7 @@
 		179A7DE328CDF9A600C845AC /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				179A7DE628CDFA2400C845AC /* BookmarksService.swift */,
+				179A7DE628CDFA2400C845AC /* BookmarksStore.swift */,
 				179A7DE428CDF9B700C845AC /* Bookmark.swift */,
 			);
 			path = Models;
@@ -60,10 +66,45 @@
 			isa = PBXGroup;
 			children = (
 				179A7DE128CDCA1500C845AC /* TraditionalSaveToFiles.swift */,
-				940D1147242E0906006F7C27 /* WebArchiverView.swift */,
 				940D115A242E099B006F7C27 /* WebView.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		179A7DED28CEB79600C845AC /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				179A7DEB28CEB79200C845AC /* UserDefaults+Keys.swift */,
+				179A7DF328CED68200C845AC /* FileManager+Documents.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		179A7DEE28CEB79F00C845AC /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				179A7DED28CEB79600C845AC /* Extensions */,
+				179A7DE328CDF9A600C845AC /* Models */,
+				179A7DE828CE027300C845AC /* Views */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
+		179A7DEF28CED45700C845AC /* Scenes */ = {
+			isa = PBXGroup;
+			children = (
+				179A7DF028CED46500C845AC /* WebArchiver */,
+			);
+			path = Scenes;
+			sourceTree = "<group>";
+		};
+		179A7DF028CED46500C845AC /* WebArchiver */ = {
+			isa = PBXGroup;
+			children = (
+				940D1147242E0906006F7C27 /* WebArchiverView.swift */,
+				179A7DF128CED49000C845AC /* WebArchiverViewModel.swift */,
+			);
+			path = WebArchiver;
 			sourceTree = "<group>";
 		};
 		940D1137242E0905006F7C27 = {
@@ -85,8 +126,8 @@
 		940D1142242E0905006F7C27 /* OfflineWebView */ = {
 			isa = PBXGroup;
 			children = (
-				179A7DE328CDF9A600C845AC /* Models */,
-				179A7DE828CE027300C845AC /* Views */,
+				179A7DEE28CEB79F00C845AC /* Core */,
+				179A7DEF28CED45700C845AC /* Scenes */,
 				940D1143242E0905006F7C27 /* AppDelegate.swift */,
 				940D1145242E0906006F7C27 /* SceneDelegate.swift */,
 				179A7DE928CE029900C845AC /* ContentView.swift */,
@@ -184,10 +225,13 @@
 				940D115B242E099B006F7C27 /* WebView.swift in Sources */,
 				940D1144242E0905006F7C27 /* AppDelegate.swift in Sources */,
 				179A7DEA28CE029900C845AC /* ContentView.swift in Sources */,
+				179A7DEC28CEB79200C845AC /* UserDefaults+Keys.swift in Sources */,
 				179A7DE228CDCA1500C845AC /* TraditionalSaveToFiles.swift in Sources */,
-				179A7DE728CDFA2400C845AC /* BookmarksService.swift in Sources */,
+				179A7DF228CED49000C845AC /* WebArchiverViewModel.swift in Sources */,
+				179A7DE728CDFA2400C845AC /* BookmarksStore.swift in Sources */,
 				940D1146242E0906006F7C27 /* SceneDelegate.swift in Sources */,
 				940D1148242E0906006F7C27 /* WebArchiverView.swift in Sources */,
+				179A7DF428CED68200C845AC /* FileManager+Documents.swift in Sources */,
 				179A7DE528CDF9B700C845AC /* Bookmark.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
