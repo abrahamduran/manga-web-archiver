@@ -14,16 +14,7 @@ struct WebArchiverView: View {
     @Environment(\.presentationMode) private var presentationMode
     @ObservedObject var viewModel: WebArchiverViewModel
     @State private var bookmarksDialog = false
-    @State private var state = ViewState.idle
-
-//    private let webpageUrl: URL
-//    private var webView: WKWebView {
-//        store.webView
-//    }
-//    private let documentsUrl: URL = {
-//        let urls = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
-//        return urls[0]
-//    }()
+    private let generator = UINotificationFeedbackGenerator()
 
     init(viewModel: WebArchiverViewModel) {
         self.viewModel = viewModel
@@ -33,18 +24,27 @@ struct WebArchiverView: View {
         ZStack(alignment: .top) {
             WebView(view: viewModel.webView)
                 .edgesIgnoringSafeArea(.vertical)
-                .toolbar {
-                    ToolbarItem(placement: .bottomBar) {
-                        toolbar
-                    }
-                }
 
-            if [.saved, .error].contains(state) {
+            if [.saved, .error].contains(viewModel.state) {
                 notification
                     .zIndex(1)
             }
         }
+        .animation(.default, value: viewModel.state)
         .navigationBarHidden(true)
+        .toolbar {
+            ToolbarItem(placement: .bottomBar) {
+                toolbar
+            }
+        }
+        .onChange(of: viewModel.state) { newValue in
+            switch newValue {
+            case .saving:   generator.prepare()
+            case .saved:    generator.notificationOccurred(.success)
+            case .error:    generator.notificationOccurred(.error)
+            case .idle:     return
+            }
+        }
     }
 
     private var notification: some View {
@@ -59,138 +59,34 @@ struct WebArchiverView: View {
                     .edgesIgnoringSafeArea(.top)
             )
             .transition(.move(edge: .top).combined(with: .opacity))
-            .onTapGesture { changeState(.idle) }
-            .onAppear {
-                DispatchQueue.main.asyncAfter(deadline: Constants.Notification.timeout) {
-                    changeState(.idle)
-                }
-            }
     }
 
     private var toolbar: some View {
         HStack {
             Text(viewModel.title)
                 .bold()
-                .onTapGesture(count: 2, perform: { })//back)
+                .onTapGesture(count: 2, perform: viewModel.input.goBack)
                 .onLongPressGesture { bookmarksDialog.toggle() }
                 .confirmationDialog("Menu", isPresented: $bookmarksDialog, titleVisibility: .hidden, actions: {
-                    Button("Add to Bookmarks", action: { })//bookmark)
+                    Button("Add to Bookmarks", action: viewModel.input.addToBookmark)
                     Button("Home", role: .destructive, action: dismiss)
                 })
 
             Spacer()
 
-            if state == .saving {
-                ProgressView()
-                    .padding(.trailing)
-            } else {
-                Button(action: { }) {//save) {
-                    Text("Save").bold()
-                }
-                .disabled(state != .idle)
+            Button(action: viewModel.input.archiveWebpage) {
+                Text("Archive").bold()
             }
+            .disabled(viewModel.state != .idle)
         }
     }
-
-//    private func loadWebsite() {
-//        store.webView.load(URLRequest(url: webpageUrl))
-//    }
-
-//    private func back() {
-//        webView.goBack()
-//    }
 
     private func dismiss() {
         presentationMode.wrappedValue.dismiss()
     }
-
-//    private func bookmark() {
-//        service.input.saveBookmark(
-//            Bookmark(title: store.title!, url: store.url!)
-//        )
-//    }
-
-//    private func save() {
-//        guard let url = store.url, let title = store.title else { return }
-//        let impact = UINotificationFeedbackGenerator()
-//        impact.prepare()
-//
-//        let fileName = getChapterTitle(from: title)
-//        let folderName = getSeriesName(from: title)
-//
-//        changeState(.saving)
-//
-//        let directoryUrl = documentsUrl
-//            .appendingPathComponent(folderName)
-//        let destinationUrl = directoryUrl
-//            .appendingPathComponent(fileName)
-//            .appendingPathExtension("webarchive")
-//
-//        if !FileManager.default.fileExists(atPath: directoryUrl.path) {
-//            try? FileManager.default.createDirectory(at: directoryUrl, withIntermediateDirectories: false)
-//        }
-//
-//        webView.createWebArchiveData { result in
-//            switch result {
-//            case let .success(data):
-//                do {
-//                    try data.write(to: destinationUrl)
-//                    DispatchQueue.global(qos: .userInitiated).async {
-//                        service.markSaved(Bookmark(title: fileName, series: folderName, url: url))
-//                    }
-//                    DispatchQueue.main.async {
-//                        changeState(.saved)
-//                        impact.notificationOccurred(.success)
-//                    }
-//                } catch {
-//                    print("ERROR:", error)
-//                    changeState(.error)
-//                    impact.notificationOccurred(.error)
-//                }
-//            case let .failure(error):
-//                print("ERROR:", error)
-//                changeState(.error)
-//                impact.notificationOccurred(.error)
-//            }
-//        }
-//    }
-
-//    private func remove() {
-//        guard let title = store.title else { return }
-//
-//        let destinationUrl = documentsUrl
-//            .appendingPathComponent(title)
-//            .appendingPathExtension("webarchive")
-//
-//        if FileManager.default.fileExists(atPath: destinationUrl.path) {
-//            try? FileManager.default.removeItem(at: destinationUrl)
-//        }
-//    }
-
-
-    private func getSeriesName(from webTitle: String) -> String {
-        guard webTitle.contains("Chapter"),
-              let start = webTitle.firstIndex(of: "-"),
-              let end = webTitle.lastIndex(of: "-")
-        else { return "Unknown" }
-
-        return webTitle[start..<end]
-            .replacingOccurrences(of: ":", with: "")
-            .replacingOccurrences(of: "-", with: "")
-            .replacingOccurrences(of: "~", with: "")
-            .trimmingCharacters(in: .whitespaces)
-    }
-
-    private func changeState(_ newState: ViewState) {
-        withAnimation(.easeInOut) {
-            state = newState
-        }
-    }
 }
 
 extension WebArchiverView {
-    enum ViewState { case idle, saving, saved, error }
-
     enum Constants {
         enum Notification {
             static let success = "Saved!"
@@ -202,7 +98,7 @@ extension WebArchiverView {
     }
 
     var notificationMessage: String {
-        if state == .error {
+        if viewModel.state == .error {
             return Constants.Notification.failure
         }
 

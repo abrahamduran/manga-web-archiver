@@ -18,7 +18,7 @@ enum SupportedSite: CaseIterable {
 
     var url: URL {
         switch self {
-        case .mangadex: return URL(string: "https://mangadex.org")!
+        case .mangadex: return URL(string: "https://mangadex.org/")!
         }
     }
 }
