@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		179A7DE028CDC9A500C845AC /* cached.webarchive in Resources */ = {isa = PBXBuildFile; fileRef = 179A7DDF28CDC9A500C845AC /* cached.webarchive */; };
 		179A7DE228CDCA1500C845AC /* TraditionalSaveToFiles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 179A7DE128CDCA1500C845AC /* TraditionalSaveToFiles.swift */; };
 		179A7DE528CDF9B700C845AC /* Bookmark.swift in Sources */ = {isa = PBXBuildFile; fileRef = 179A7DE428CDF9B700C845AC /* Bookmark.swift */; };
 		179A7DE728CDFA2400C845AC /* BookmarksService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 179A7DE628CDFA2400C845AC /* BookmarksService.swift */; };
@@ -19,11 +18,9 @@
 		940D114D242E090A006F7C27 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 940D114C242E090A006F7C27 /* Preview Assets.xcassets */; };
 		940D1150242E090A006F7C27 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 940D114E242E090A006F7C27 /* LaunchScreen.storyboard */; };
 		940D115B242E099B006F7C27 /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 940D115A242E099B006F7C27 /* WebView.swift */; };
-		940D115E242E87E4006F7C27 /* WebArchiver in Frameworks */ = {isa = PBXBuildFile; productRef = 940D115D242E87E4006F7C27 /* WebArchiver */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		179A7DDF28CDC9A500C845AC /* cached.webarchive */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = cached.webarchive; sourceTree = "<group>"; };
 		179A7DE128CDCA1500C845AC /* TraditionalSaveToFiles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TraditionalSaveToFiles.swift; sourceTree = "<group>"; };
 		179A7DE428CDF9B700C845AC /* Bookmark.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bookmark.swift; sourceTree = "<group>"; };
 		179A7DE628CDFA2400C845AC /* BookmarksService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarksService.swift; sourceTree = "<group>"; };
@@ -44,7 +41,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				940D115E242E87E4006F7C27 /* WebArchiver in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -95,7 +91,6 @@
 				940D1145242E0906006F7C27 /* SceneDelegate.swift */,
 				179A7DE928CE029900C845AC /* ContentView.swift */,
 				940D1149242E090A006F7C27 /* Assets.xcassets */,
-				179A7DDF28CDC9A500C845AC /* cached.webarchive */,
 				940D114E242E090A006F7C27 /* LaunchScreen.storyboard */,
 				940D1151242E090A006F7C27 /* Info.plist */,
 				940D114B242E090A006F7C27 /* Preview Content */,
@@ -128,7 +123,6 @@
 			);
 			name = OfflineWebView;
 			packageProductDependencies = (
-				940D115D242E87E4006F7C27 /* WebArchiver */,
 			);
 			productName = OfflineWebView;
 			productReference = 940D1140242E0905006F7C27 /* OfflineWebView.app */;
@@ -159,7 +153,6 @@
 			);
 			mainGroup = 940D1137242E0905006F7C27;
 			packageReferences = (
-				940D115C242E87E4006F7C27 /* XCRemoteSwiftPackageReference "WebArchiver" */,
 			);
 			productRefGroup = 940D1141242E0905006F7C27 /* Products */;
 			projectDirPath = "";
@@ -175,7 +168,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				179A7DE028CDC9A500C845AC /* cached.webarchive in Resources */,
 				940D1150242E090A006F7C27 /* LaunchScreen.storyboard in Resources */,
 				940D114D242E090A006F7C27 /* Preview Assets.xcassets in Resources */,
 				940D114A242E090A006F7C27 /* Assets.xcassets in Resources */,
@@ -394,25 +386,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCRemoteSwiftPackageReference section */
-		940D115C242E87E4006F7C27 /* XCRemoteSwiftPackageReference "WebArchiver" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/ernesto-elsaesser/WebArchiver";
-			requirement = {
-				kind = exactVersion;
-				version = 1.0.1;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		940D115D242E87E4006F7C27 /* WebArchiver */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 940D115C242E87E4006F7C27 /* XCRemoteSwiftPackageReference "WebArchiver" */;
-			productName = WebArchiver;
-		};
-/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 940D1138242E0905006F7C27 /* Project object */;
 }
