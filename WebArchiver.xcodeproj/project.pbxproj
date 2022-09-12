@@ -17,7 +17,6 @@
 		1750582A28CEDC42003A12A7 /* WebArchiverViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1750581E28CEDC42003A12A7 /* WebArchiverViewModel.swift */; };
 		1750582B28CEDC42003A12A7 /* WebArchiverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1750581F28CEDC42003A12A7 /* WebArchiverView.swift */; };
 		1750582C28CEDC42003A12A7 /* Bookmark.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1750582228CEDC42003A12A7 /* Bookmark.swift */; };
-		1750582D28CEDC42003A12A7 /* BookmarksStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1750582328CEDC42003A12A7 /* BookmarksStore.swift */; };
 		1750582E28CEDC42003A12A7 /* FileManager+Documents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1750582528CEDC42003A12A7 /* FileManager+Documents.swift */; };
 		1750582F28CEDC42003A12A7 /* UserDefaults+Keys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1750582628CEDC42003A12A7 /* UserDefaults+Keys.swift */; };
 		1750583028CEDC42003A12A7 /* TraditionalSaveToFiles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1750582828CEDC42003A12A7 /* TraditionalSaveToFiles.swift */; };
@@ -27,6 +26,7 @@
 		1750583828CEF1A8003A12A7 /* SupportedSite.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1750583728CEF1A8003A12A7 /* SupportedSite.swift */; };
 		1750583A28CF0685003A12A7 /* WKWebView+Combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1750583928CF0685003A12A7 /* WKWebView+Combine.swift */; };
 		1750583D28CF13B8003A12A7 /* CombineExt in Frameworks */ = {isa = PBXBuildFile; productRef = 1750583C28CF13B8003A12A7 /* CombineExt */; };
+		1750583E28CF26F8003A12A7 /* BookmarksStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1750582328CEDC42003A12A7 /* BookmarksStore.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -67,6 +67,7 @@
 		1750582928CEDC42003A12A7 /* WebView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
 		1750583228CEDC7F003A12A7 /* UINavigationController+SwipeBack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UINavigationController+SwipeBack.swift"; sourceTree = "<group>"; };
 		1750583428CEDCA2003A12A7 /* URL+Identifiable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URL+Identifiable.swift"; sourceTree = "<group>"; };
+		1750583628CEE996003A12A7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		1750583728CEF1A8003A12A7 /* SupportedSite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupportedSite.swift; sourceTree = "<group>"; };
 		1750583928CF0685003A12A7 /* WKWebView+Combine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WKWebView+Combine.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -125,6 +126,7 @@
 				175057F228CEDC2D003A12A7 /* WebArchiverApp.swift */,
 				175057F428CEDC2D003A12A7 /* ContentView.swift */,
 				175057F628CEDC2E003A12A7 /* Assets.xcassets */,
+				1750583628CEE996003A12A7 /* Info.plist */,
 				175057F828CEDC2E003A12A7 /* Preview Content */,
 			);
 			path = WebArchiver;
@@ -356,13 +358,13 @@
 				1750582C28CEDC42003A12A7 /* Bookmark.swift in Sources */,
 				175057F528CEDC2D003A12A7 /* ContentView.swift in Sources */,
 				1750582B28CEDC42003A12A7 /* WebArchiverView.swift in Sources */,
+				1750583E28CF26F8003A12A7 /* BookmarksStore.swift in Sources */,
 				175057F328CEDC2D003A12A7 /* WebArchiverApp.swift in Sources */,
 				1750583528CEDCA2003A12A7 /* URL+Identifiable.swift in Sources */,
 				1750582E28CEDC42003A12A7 /* FileManager+Documents.swift in Sources */,
 				1750582A28CEDC42003A12A7 /* WebArchiverViewModel.swift in Sources */,
 				1750583828CEF1A8003A12A7 /* SupportedSite.swift in Sources */,
 				1750583028CEDC42003A12A7 /* TraditionalSaveToFiles.swift in Sources */,
-				1750582D28CEDC42003A12A7 /* BookmarksStore.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -524,9 +526,12 @@
 				DEVELOPMENT_TEAM = 7MR9JRR7PY;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = WebArchiver/Info.plist;
+				INFOPLIST_KEY_LSSupportsOpeningDocumentsInPlace = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -553,9 +558,12 @@
 				DEVELOPMENT_TEAM = 7MR9JRR7PY;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = WebArchiver/Info.plist;
+				INFOPLIST_KEY_LSSupportsOpeningDocumentsInPlace = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
