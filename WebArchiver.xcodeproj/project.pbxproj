@@ -25,6 +25,7 @@
 		1750583328CEDC7F003A12A7 /* UINavigationController+SwipeBack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1750583228CEDC7F003A12A7 /* UINavigationController+SwipeBack.swift */; };
 		1750583528CEDCA2003A12A7 /* URL+Identifiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1750583428CEDCA2003A12A7 /* URL+Identifiable.swift */; };
 		1750583828CEF1A8003A12A7 /* SupportedSite.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1750583728CEF1A8003A12A7 /* SupportedSite.swift */; };
+		1750583A28CF0685003A12A7 /* WKWebView+Combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1750583928CF0685003A12A7 /* WKWebView+Combine.swift */; };
 		1750583D28CF13B8003A12A7 /* CombineExt in Frameworks */ = {isa = PBXBuildFile; productRef = 1750583C28CF13B8003A12A7 /* CombineExt */; };
 /* End PBXBuildFile section */
 
@@ -67,6 +68,7 @@
 		1750583228CEDC7F003A12A7 /* UINavigationController+SwipeBack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UINavigationController+SwipeBack.swift"; sourceTree = "<group>"; };
 		1750583428CEDCA2003A12A7 /* URL+Identifiable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URL+Identifiable.swift"; sourceTree = "<group>"; };
 		1750583728CEF1A8003A12A7 /* SupportedSite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupportedSite.swift; sourceTree = "<group>"; };
+		1750583928CF0685003A12A7 /* WKWebView+Combine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WKWebView+Combine.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -197,6 +199,7 @@
 				1750583228CEDC7F003A12A7 /* UINavigationController+SwipeBack.swift */,
 				1750583428CEDCA2003A12A7 /* URL+Identifiable.swift */,
 				1750582628CEDC42003A12A7 /* UserDefaults+Keys.swift */,
+				1750583928CF0685003A12A7 /* WKWebView+Combine.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -347,6 +350,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1750582F28CEDC42003A12A7 /* UserDefaults+Keys.swift in Sources */,
+				1750583A28CF0685003A12A7 /* WKWebView+Combine.swift in Sources */,
 				1750583328CEDC7F003A12A7 /* UINavigationController+SwipeBack.swift in Sources */,
 				1750583128CEDC42003A12A7 /* WebView.swift in Sources */,
 				1750582C28CEDC42003A12A7 /* Bookmark.swift in Sources */,

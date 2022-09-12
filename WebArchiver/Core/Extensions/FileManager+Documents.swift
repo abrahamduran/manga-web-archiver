@@ -9,7 +9,7 @@
 import Foundation
 
 extension FileManager {
-    var documentsUrl: URL {
+    static var documentsUrl: URL {
         let urls = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
         return urls[0]
     }
