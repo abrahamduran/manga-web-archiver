@@ -24,6 +24,7 @@
 		1750583128CEDC42003A12A7 /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1750582928CEDC42003A12A7 /* WebView.swift */; };
 		1750583328CEDC7F003A12A7 /* UINavigationController+SwipeBack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1750583228CEDC7F003A12A7 /* UINavigationController+SwipeBack.swift */; };
 		1750583528CEDCA2003A12A7 /* URL+Identifiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1750583428CEDCA2003A12A7 /* URL+Identifiable.swift */; };
+		1750583828CEF1A8003A12A7 /* SupportedSite.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1750583728CEF1A8003A12A7 /* SupportedSite.swift */; };
 		1750583D28CF13B8003A12A7 /* CombineExt in Frameworks */ = {isa = PBXBuildFile; productRef = 1750583C28CF13B8003A12A7 /* CombineExt */; };
 /* End PBXBuildFile section */
 
@@ -65,6 +66,7 @@
 		1750582928CEDC42003A12A7 /* WebView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
 		1750583228CEDC7F003A12A7 /* UINavigationController+SwipeBack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UINavigationController+SwipeBack.swift"; sourceTree = "<group>"; };
 		1750583428CEDCA2003A12A7 /* URL+Identifiable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URL+Identifiable.swift"; sourceTree = "<group>"; };
+		1750583728CEF1A8003A12A7 /* SupportedSite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupportedSite.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -183,6 +185,7 @@
 			children = (
 				1750582228CEDC42003A12A7 /* Bookmark.swift */,
 				1750582328CEDC42003A12A7 /* BookmarksStore.swift */,
+				1750583728CEF1A8003A12A7 /* SupportedSite.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -353,6 +356,7 @@
 				1750583528CEDCA2003A12A7 /* URL+Identifiable.swift in Sources */,
 				1750582E28CEDC42003A12A7 /* FileManager+Documents.swift in Sources */,
 				1750582A28CEDC42003A12A7 /* WebArchiverViewModel.swift in Sources */,
+				1750583828CEF1A8003A12A7 /* SupportedSite.swift in Sources */,
 				1750583028CEDC42003A12A7 /* TraditionalSaveToFiles.swift in Sources */,
 				1750582D28CEDC42003A12A7 /* BookmarksStore.swift in Sources */,
 			);

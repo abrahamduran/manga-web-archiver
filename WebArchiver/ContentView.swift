@@ -15,10 +15,12 @@ struct ContentView: View {
         NavigationView {
             List {
                 Section(header: Text("Sites")) {
-                    NavigationLink("MangaDex") {
-                        WebArchiverView(viewModel: .init(url: URL(string: "https://mangadex.org")!))
+                    ForEach(SupportedSite.allCases, id: \.self) { site in
+                        NavigationLink(site.title) {
+                            WebArchiverView(viewModel: .init(url: site.url))
+                        }
+                        .foregroundColor(.blue)
                     }
-                    .foregroundColor(.blue)
                 }
 
                 Section(header: Text("Bookmarks")) {
