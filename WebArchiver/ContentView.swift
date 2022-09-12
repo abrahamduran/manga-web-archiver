@@ -52,10 +52,12 @@ struct ContentView: View {
                     }
                 }
             }
-            .navigationBarHidden(true)
+            .navigationTitle("Web Archiver")
+            .listStyle(InsetGroupedListStyle())
             .onAppear(perform: store.input.load)
         }
-        .navigationViewStyle(.stack)
+
+        .navigationViewStyle(StackNavigationViewStyle())
     }
 }
 
