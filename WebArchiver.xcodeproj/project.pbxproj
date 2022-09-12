@@ -24,6 +24,7 @@
 		1750583128CEDC42003A12A7 /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1750582928CEDC42003A12A7 /* WebView.swift */; };
 		1750583328CEDC7F003A12A7 /* UINavigationController+SwipeBack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1750583228CEDC7F003A12A7 /* UINavigationController+SwipeBack.swift */; };
 		1750583528CEDCA2003A12A7 /* URL+Identifiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1750583428CEDCA2003A12A7 /* URL+Identifiable.swift */; };
+		1750583D28CF13B8003A12A7 /* CombineExt in Frameworks */ = {isa = PBXBuildFile; productRef = 1750583C28CF13B8003A12A7 /* CombineExt */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -71,6 +72,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1750583D28CF13B8003A12A7 /* CombineExt in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -221,6 +223,9 @@
 			dependencies = (
 			);
 			name = WebArchiver;
+			packageProductDependencies = (
+				1750583C28CF13B8003A12A7 /* CombineExt */,
+			);
 			productName = WebArchiver;
 			productReference = 175057EF28CEDC2D003A12A7 /* WebArchiver.app */;
 			productType = "com.apple.product-type.application";
@@ -293,6 +298,9 @@
 				Base,
 			);
 			mainGroup = 175057E628CEDC2D003A12A7;
+			packageReferences = (
+				1750583B28CF13B8003A12A7 /* XCRemoteSwiftPackageReference "CombineExt" */,
+			);
 			productRefGroup = 175057F028CEDC2D003A12A7 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -671,6 +679,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		1750583B28CF13B8003A12A7 /* XCRemoteSwiftPackageReference "CombineExt" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/CombineCommunity/CombineExt#materialize";
+			requirement = {
+				kind = upToNextMinorVersion;
+				minimumVersion = 1.8.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		1750583C28CF13B8003A12A7 /* CombineExt */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1750583B28CF13B8003A12A7 /* XCRemoteSwiftPackageReference "CombineExt" */;
+			productName = CombineExt;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 175057E728CEDC2D003A12A7 /* Project object */;
 }
