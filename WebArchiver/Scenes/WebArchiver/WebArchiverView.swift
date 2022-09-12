@@ -12,7 +12,7 @@ import WebKit
 
 struct WebArchiverView: View {
     @Environment(\.presentationMode) private var presentationMode
-    @ObservedObject var viewModel: WebArchiverViewModel
+    @ObservedObject private var viewModel: WebArchiverViewModel
     @State private var bookmarksDialog = false
     private let generator = UINotificationFeedbackGenerator()
 
@@ -37,6 +37,7 @@ struct WebArchiverView: View {
                 toolbar
             }
         }
+        .onAppear(perform: viewModel.input.loadPage)
         .onChange(of: viewModel.state) { newValue in
             switch newValue {
             case .saving:   generator.prepare()

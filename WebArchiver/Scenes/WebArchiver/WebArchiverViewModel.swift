@@ -18,17 +18,24 @@ final class WebArchiverViewModel: ObservableObject {
     let webView: WKWebView
     let input = Input()
 
-    init(url: URL, bookmarkStore: BookmarksStore = .init()) {
+    init(url: URL, bookmarksService: BookmarksService = .init()) {
         self.webView = WKWebView(frame: CGRect(x: 0.0, y: 0.0, width: 0.1, height: 0.1))
-        webView.load(URLRequest(url: url))
-//        webView.navigationDelegate = self
 
+        configureLoadPage(webView: webView, url: url)
         configureIdleStateReset()
         configureTitle(webView: webView)
         configureGoBack(webView: webView)
-        configureArchiveWebpage(webView: webView, store: bookmarkStore)
-        configureAddToHistory(webView: webView, store: bookmarkStore)
-        configureAddToBookmark(webView: webView, store: bookmarkStore)
+        configureArchiveWebpage(webView: webView, service: bookmarksService)
+        configureAddToHistory(webView: webView, service: bookmarksService)
+        configureAddToBookmark(webView: webView, service: bookmarksService)
+    }
+
+    private func configureLoadPage(webView: WKWebView, url: URL) {
+        input.load
+            .sink {
+                webView.load(URLRequest(url: url))
+            }
+            .store(in: &cancellables)
     }
 
     private func configureIdleStateReset() {
@@ -36,35 +43,36 @@ final class WebArchiverViewModel: ObservableObject {
             .filter { [.saved, .error].contains($0) }
             .map { _ in ViewState.idle }
             .debounce(for: .seconds(4), scheduler: DispatchQueue.main)
+            .receive(on: DispatchQueue.main)
             .assign(to: &$state)
     }
 
     private func configureTitle(webView: WKWebView) {
         webView.publisher(for: \.title, options: .prior)
-            .map(parseChapterTitle)
+            .prepend("WebArchiver")
+            .compactMap(parseChapterTitle)
+            .receive(on: DispatchQueue.main)
             .assign(to: &$title)
     }
 
     private func configureGoBack(webView: WKWebView) {
         input.back
+            .receive(on: DispatchQueue.main)
             .sink { webView.goBack() }
             .store(in: &cancellables)
     }
 
-    private func configureArchiveWebpage(webView: WKWebView, store: BookmarksStore) {
+    private func configureArchiveWebpage(webView: WKWebView, service: BookmarksService) {
         let archive = input.archive.share()
 
-        archive
-            .map { ViewState.saving }
-            .assign(to: &$state)
-
         let fileInfo = archive
-            .compactMap { [parseChapterTitle, parseSeriesName] _ -> (title: String, series: String, url: URL, directory: URL)? in
-                guard webView.title != nil, let url = webView.url else { return nil }
-                let title = parseChapterTitle(webView.title)
-                let series = parseSeriesName(title)
+            .compactMap { [parseChapterTitle, parseSeriesName] _ -> (title: String, series: String?, url: URL, directory: URL)? in
+                guard webView.title != nil, let url = webView.url,
+                      let title = parseChapterTitle(webView.title)
+                else { return nil }
+                let series = parseSeriesName(webView.title)
 
-                return (title: title, series: series, url: url, directory: .documents.appendingPathComponent(series))
+                return (title: title, series: series, url: url, directory: .documents.appendingPathComponent(series ?? "Unknown"))
             }
             .share()
 
@@ -86,7 +94,7 @@ final class WebArchiverViewModel: ObservableObject {
 
         let destination = fileInfo
             .map {
-                return $0.directory
+                $0.directory
                     .appendingPathComponent($0.title)
                     .appendingPathExtension("webarchive")
             }
@@ -117,12 +125,18 @@ final class WebArchiverViewModel: ObservableObject {
                     return Just(false)
                 }
             }
+            .share()
+
+        archive
+            .map { ViewState.saving }
+            .assign(to: &$state)
 
         saveToDestination
             .filter { $0 }
             .withLatestFrom(fileInfo)
             .map { Bookmark(title: $0.title, series: $0.series, url: $0.url) }
-            .sink(receiveValue: store.input.saveLatests)
+            .receive(on: DispatchQueue.global(qos: .userInitiated))
+            .sink(receiveValue: service.input.saveLatests)
             .store(in: &cancellables)
 
         saveToDestination
@@ -131,20 +145,21 @@ final class WebArchiverViewModel: ObservableObject {
             .assign(to: &$state)
     }
 
-    private func configureAddToBookmark(webView: WKWebView, store: BookmarksStore) {
+    private func configureAddToBookmark(webView: WKWebView, service: BookmarksService) {
         input.bookmark
             .compactMap { [parseChapterTitle] _ -> Bookmark? in
-                guard let url = webView.url else { return nil }
-                let title = parseChapterTitle(webView.title)
+                guard let url = webView.url,
+                      let title = parseChapterTitle(webView.title)
+                else { return nil }
 
                 return Bookmark(title: title, url: url)
             }
-            .sink(receiveValue: store.input.saveBookmark)
+            .receive(on: DispatchQueue.global(qos: .userInitiated))
+            .sink(receiveValue: service.input.saveBookmark)
             .store(in: &cancellables)
     }
 
-    private var observers: [NSKeyValueObservation] = []
-    private func configureAddToHistory(webView: WKWebView, store: BookmarksStore) {
+    private func configureAddToHistory(webView: WKWebView, service: BookmarksService) {
         webView.publisher(for: \.url, options: [.new])
             .removeDuplicates()
             .compactMap { $0 }
@@ -156,29 +171,31 @@ final class WebArchiverViewModel: ObservableObject {
             .filter {
                 SupportedSite.allCases.map(\.url).contains($0.0) == false
             }
-            .debounce(for: .seconds(10), scheduler: DispatchQueue.main)
+            .debounce(for: .seconds(5), scheduler: DispatchQueue.main)
             .compactMap { (url, title) -> Bookmark? in
                 guard !title.isEmpty else { return nil }
 
                 return Bookmark(title: title, url: url)
             }
-            .sink(receiveValue: store.input.saveHistory)
+            .receive(on: DispatchQueue.global())
+            .sink(receiveValue: service.input.saveHistory)
             .store(in: &cancellables)
     }
 
-    private func parseChapterTitle(from webTitle: String?) -> String {
-        guard let webTitle = webTitle, webTitle.contains("Chapter") else { return webTitle ?? "" }
+    private func parseChapterTitle(from webTitle: String?) -> String? {
+        guard let webTitle = webTitle, webTitle.isEmpty == false else { return nil }
+        guard webTitle.contains("Chapter") else { return webTitle }
         let index = webTitle.firstIndex(of: "C") ?? webTitle.startIndex
 
         return webTitle[index..<webTitle.endIndex]
             .replacingOccurrences(of: " - MangaDex", with: "")
     }
 
-    private func parseSeriesName(from webTitle: String?) -> String {
+    private func parseSeriesName(from webTitle: String?) -> String? {
         guard let webTitle = webTitle, webTitle.contains("Chapter"),
               let start = webTitle.firstIndex(of: "-"),
               let end = webTitle.lastIndex(of: "-")
-        else { return "Unknown" }
+        else { return nil }
 
         return webTitle[start..<end]
             .replacingOccurrences(of: ":", with: "")
@@ -188,19 +205,17 @@ final class WebArchiverViewModel: ObservableObject {
     }
 }
 
-//extension WebArchiverViewModel: WKNavigationDelegate {
-//
-//}
-
 extension WebArchiverViewModel {
     enum ViewState { case idle, saving, saved, error }
 
     struct Input {
+        fileprivate let load = PassthroughSubject<Void, Never>()
         fileprivate let back = PassthroughSubject<Void, Never>()
         fileprivate let archive = PassthroughSubject<Void, Never>()
         fileprivate let bookmark = PassthroughSubject<Void, Never>()
 
         func goBack() { back.send(()) }
+        func loadPage() { load.send(()) }
         func addToBookmark() { bookmark.send(()) }
         func archiveWebpage() { archive.send(()) }
     }

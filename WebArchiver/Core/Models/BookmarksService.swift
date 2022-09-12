@@ -1,5 +1,5 @@
 //
-//  BookmarksStore.swift
+//  BookmarksService.swift
 //  WebArchiver
 //
 //  Created by Abraham Duran on 12/9/22.
@@ -8,26 +8,12 @@
 import Foundation
 import Combine
 
-final class BookmarksStore: ObservableObject {
+final class BookmarksService: ObservableObject {
     @Published private(set) var history: [Bookmark] = []
     @Published private(set) var latests: [Bookmark] = []
     @Published private(set) var bookmarks: [Bookmark] = []
     private var cancellables = Set<AnyCancellable>()
     let input = Input()
-
-    struct Input {
-        fileprivate let saveHistory = PassthroughSubject<Bookmark, Never>()
-        fileprivate let saveLatests = PassthroughSubject<Bookmark, Never>()
-        fileprivate let saveBookmark = PassthroughSubject<Bookmark, Never>()
-        fileprivate let remove = PassthroughSubject<(Types, Bookmark), Never>()
-        fileprivate let refresh = PassthroughSubject<Void, Never>()
-
-        func saveHistory(_ bookmark: Bookmark) { saveHistory.send(bookmark) }
-        func saveLatests(_ bookmark: Bookmark) { saveLatests.send(bookmark) }
-        func saveBookmark(_ bookmark: Bookmark) { saveBookmark.send(bookmark) }
-        func remove(_ bookmark: Bookmark, from type: Types) { remove.send((type, bookmark)) }
-        func load() { refresh.send(()) }
-    }
 
     init() {
         configureSave()
@@ -55,13 +41,21 @@ final class BookmarksStore: ObservableObject {
             .store(in: &cancellables)
 
         input.saveLatests
-            .receive(on: DispatchQueue.global())
+            .receive(on: DispatchQueue.global(qos: .userInitiated))
             .sink(receiveValue: saveLatests)
             .store(in: &cancellables)
 
         input.saveBookmark
-            .receive(on: DispatchQueue.global())
+            .receive(on: DispatchQueue.global(qos: .userInitiated))
             .sink(receiveValue: saveBookmarks)
+            .store(in: &cancellables)
+
+        input.bulkSave
+            .sink { [weak self] (bookmarks, type) in
+                guard let self = self else { return }
+                self[keyPath: type.keyPath] = bookmarks
+                self.store(bookmarks, for: type)
+            }
             .store(in: &cancellables)
     }
 
@@ -147,11 +141,12 @@ final class BookmarksStore: ObservableObject {
     }
 }
 
-extension BookmarksStore {
+extension BookmarksService {
     enum Constants {
         static let latestsLimit = 20
         static let historyLimit = 50
     }
+
     enum Types {
         case history, latests, bookmarks
 
@@ -163,12 +158,28 @@ extension BookmarksStore {
             }
         }
 
-        var keyPath: ReferenceWritableKeyPath<BookmarksStore, [Bookmark]> {
+        var keyPath: ReferenceWritableKeyPath<BookmarksService, [Bookmark]> {
             switch self {
             case .history:      return \.history
             case .latests:      return \.latests
             case .bookmarks:    return \.bookmarks
             }
         }
+    }
+
+    struct Input {
+        fileprivate let saveHistory = PassthroughSubject<Bookmark, Never>()
+        fileprivate let saveLatests = PassthroughSubject<Bookmark, Never>()
+        fileprivate let saveBookmark = PassthroughSubject<Bookmark, Never>()
+        fileprivate let bulkSave = PassthroughSubject<([Bookmark], Types), Never>()
+        fileprivate let remove = PassthroughSubject<(Types, Bookmark), Never>()
+        fileprivate let refresh = PassthroughSubject<Void, Never>()
+
+        func saveHistory(_ bookmark: Bookmark) { saveHistory.send(bookmark) }
+        func saveLatests(_ bookmark: Bookmark) { saveLatests.send(bookmark) }
+        func saveBookmark(_ bookmark: Bookmark) { saveBookmark.send(bookmark) }
+        func bulkSave(_ bookmarks: [Bookmark], in type: Types) { bulkSave.send((bookmarks, type)) }
+        func remove(_ bookmark: Bookmark, from type: Types) { remove.send((type, bookmark)) }
+        func load() { refresh.send(()) }
     }
 }
