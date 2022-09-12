@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		170A4AD228CF2B4F00CF2E39 /* BookmarksStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 170A4AD128CF2B4F00CF2E39 /* BookmarksStore.swift */; };
 		175057F328CEDC2D003A12A7 /* WebArchiverApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 175057F228CEDC2D003A12A7 /* WebArchiverApp.swift */; };
 		175057F528CEDC2D003A12A7 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 175057F428CEDC2D003A12A7 /* ContentView.swift */; };
 		175057F728CEDC2E003A12A7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 175057F628CEDC2E003A12A7 /* Assets.xcassets */; };
@@ -26,7 +27,6 @@
 		1750583828CEF1A8003A12A7 /* SupportedSite.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1750583728CEF1A8003A12A7 /* SupportedSite.swift */; };
 		1750583A28CF0685003A12A7 /* WKWebView+Combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1750583928CF0685003A12A7 /* WKWebView+Combine.swift */; };
 		1750583D28CF13B8003A12A7 /* CombineExt in Frameworks */ = {isa = PBXBuildFile; productRef = 1750583C28CF13B8003A12A7 /* CombineExt */; };
-		1750583E28CF26F8003A12A7 /* BookmarksStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1750582328CEDC42003A12A7 /* BookmarksStore.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,6 +47,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		170A4AD128CF2B4F00CF2E39 /* BookmarksStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarksStore.swift; sourceTree = "<group>"; };
 		175057EF28CEDC2D003A12A7 /* WebArchiver.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WebArchiver.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		175057F228CEDC2D003A12A7 /* WebArchiverApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebArchiverApp.swift; sourceTree = "<group>"; };
 		175057F428CEDC2D003A12A7 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -60,7 +61,6 @@
 		1750581E28CEDC42003A12A7 /* WebArchiverViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebArchiverViewModel.swift; sourceTree = "<group>"; };
 		1750581F28CEDC42003A12A7 /* WebArchiverView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebArchiverView.swift; sourceTree = "<group>"; };
 		1750582228CEDC42003A12A7 /* Bookmark.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Bookmark.swift; sourceTree = "<group>"; };
-		1750582328CEDC42003A12A7 /* BookmarksStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookmarksStore.swift; sourceTree = "<group>"; };
 		1750582528CEDC42003A12A7 /* FileManager+Documents.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "FileManager+Documents.swift"; sourceTree = "<group>"; };
 		1750582628CEDC42003A12A7 /* UserDefaults+Keys.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UserDefaults+Keys.swift"; sourceTree = "<group>"; };
 		1750582828CEDC42003A12A7 /* TraditionalSaveToFiles.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TraditionalSaveToFiles.swift; sourceTree = "<group>"; };
@@ -188,7 +188,7 @@
 			isa = PBXGroup;
 			children = (
 				1750582228CEDC42003A12A7 /* Bookmark.swift */,
-				1750582328CEDC42003A12A7 /* BookmarksStore.swift */,
+				170A4AD128CF2B4F00CF2E39 /* BookmarksStore.swift */,
 				1750583728CEF1A8003A12A7 /* SupportedSite.swift */,
 			);
 			path = Models;
@@ -354,11 +354,11 @@
 				1750582F28CEDC42003A12A7 /* UserDefaults+Keys.swift in Sources */,
 				1750583A28CF0685003A12A7 /* WKWebView+Combine.swift in Sources */,
 				1750583328CEDC7F003A12A7 /* UINavigationController+SwipeBack.swift in Sources */,
+				170A4AD228CF2B4F00CF2E39 /* BookmarksStore.swift in Sources */,
 				1750583128CEDC42003A12A7 /* WebView.swift in Sources */,
 				1750582C28CEDC42003A12A7 /* Bookmark.swift in Sources */,
 				175057F528CEDC2D003A12A7 /* ContentView.swift in Sources */,
 				1750582B28CEDC42003A12A7 /* WebArchiverView.swift in Sources */,
-				1750583E28CF26F8003A12A7 /* BookmarksStore.swift in Sources */,
 				175057F328CEDC2D003A12A7 /* WebArchiverApp.swift in Sources */,
 				1750583528CEDCA2003A12A7 /* URL+Identifiable.swift in Sources */,
 				1750582E28CEDC42003A12A7 /* FileManager+Documents.swift in Sources */,

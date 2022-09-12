@@ -1,9 +1,8 @@
 //
 //  BookmarksStore.swift
-//  OfflineWebView
+//  WebArchiver
 //
-//  Created by Abraham Duran on 11/9/22.
-//  Copyright © 2022 Ernesto Elsaesser. All rights reserved.
+//  Created by Abraham Duran on 12/9/22.
 //
 
 import Foundation
@@ -31,6 +30,9 @@ final class BookmarksStore: ObservableObject {
     }
 
     init() {
+        configureSave()
+        configureRemove()
+        configureRefresh()
         load(.history, .latests, .bookmarks)
     }
 
