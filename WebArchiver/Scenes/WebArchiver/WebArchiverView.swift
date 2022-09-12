@@ -45,7 +45,6 @@ struct WebArchiverView: View {
             }
         }
         .navigationBarHidden(true)
-//        .onAppear(perform: loadWebsite)
     }
 
     private var notification: some View {
@@ -70,7 +69,7 @@ struct WebArchiverView: View {
 
     private var toolbar: some View {
         HStack {
-            Text("MangaDex")//getChapterTitle(from: store.title ?? ""))
+            Text(viewModel.title)
                 .bold()
                 .onTapGesture(count: 2, perform: { })//back)
                 .onLongPressGesture { bookmarksDialog.toggle() }
@@ -168,13 +167,6 @@ struct WebArchiverView: View {
 //        }
 //    }
 
-    private func getChapterTitle(from webTitle: String) -> String {
-        guard webTitle.contains("Chapter") else { return webTitle }
-        let index = webTitle.firstIndex(of: "C") ?? webTitle.startIndex
-
-        return webTitle[index..<webTitle.endIndex]
-            .replacingOccurrences(of: " - MangaDex", with: "")
-    }
 
     private func getSeriesName(from webTitle: String) -> String {
         guard webTitle.contains("Chapter"),
