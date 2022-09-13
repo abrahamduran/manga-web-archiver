@@ -16,10 +16,17 @@ struct ContentView: View {
             List {
                 Section(header: Text("Sites")) {
                     ForEach(SupportedSite.allCases, id: \.self) { site in
-                        NavigationLink(site.title) {
+                        NavigationLink {
                             WebArchiverView(viewModel: .init(url: site.url))
+                        } label: {
+                            HStack {
+                                Image(site.logoName)
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: 32, height: 32)
+                                Text(site.title)
+                            }
                         }
-                        .foregroundColor(.blue)
                     }
                 }
 

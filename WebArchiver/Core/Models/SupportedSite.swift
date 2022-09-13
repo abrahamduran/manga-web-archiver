@@ -21,4 +21,10 @@ enum SupportedSite: CaseIterable {
         case .mangadex: return URL(string: "https://mangadex.org/")!
         }
     }
+
+    var logoName: String {
+        switch self {
+        case .mangadex: return "mangadex"
+        }
+    }
 }
