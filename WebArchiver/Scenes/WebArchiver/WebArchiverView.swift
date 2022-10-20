@@ -25,8 +25,11 @@ struct WebArchiverView: View {
             WebView(view: viewModel.webView)
                 .edgesIgnoringSafeArea(.vertical)
 
-            if [.saved, .error].contains(viewModel.state) {
-                notification
+            if viewModel.state == .saved {
+                savedNotification
+                    .zIndex(1)
+            } else if viewModel.state == .error {
+                errorNotification
                     .zIndex(1)
             }
         }
@@ -48,8 +51,8 @@ struct WebArchiverView: View {
         }
     }
 
-    private var notification: some View {
-        Text(notificationMessage)
+    private var savedNotification: some View {
+        Text(Constants.Notification.saved)
             .font(.body.bold())
             .foregroundColor(.primary)
             .padding(.vertical)
@@ -60,6 +63,29 @@ struct WebArchiverView: View {
                     .edgesIgnoringSafeArea(.top)
             )
             .transition(.move(edge: .top).combined(with: .opacity))
+    }
+
+    private var errorNotification: some View {
+        GeometryReader { proxy in
+            Text(Constants.Notification.error)
+                .font(.body.bold())
+                .foregroundColor(.primary.opacity(0.75))
+                .padding()
+                .multilineTextAlignment(.center)
+                .frame(width: proxy.size.width * 0.5,
+                       height: proxy.size.height * 0.2)
+                .background(
+                    RoundedRectangle(cornerRadius: 10)
+                        .fill(.ultraThinMaterial)
+                        .background(
+                            RoundedRectangle(cornerRadius: 10)
+                                .fill(Color.red.opacity(0.15))
+                        )
+                )
+                .transition(.opacity)
+                .offset(x: (proxy.size.width * 0.5) / 2,
+                        y: proxy.size.height * 0.4)
+        }
     }
 
     private var toolbar: some View {
@@ -87,23 +113,15 @@ struct WebArchiverView: View {
     }
 }
 
-extension WebArchiverView {
+private extension WebArchiverView {
     enum Constants {
         enum Notification {
-            static let success = "Saved!"
-            static let failure = "Something went wrong"
+            static let saved = "Saved!"
+            static let error = "Something went wrong"
             static var timeout: DispatchTime {
                 DispatchTime.now() + 4
             }
         }
-    }
-
-    var notificationMessage: String {
-        if viewModel.state == .error {
-            return Constants.Notification.failure
-        }
-
-        return Constants.Notification.success
     }
 }
 
